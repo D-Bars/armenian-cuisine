@@ -1,16 +1,30 @@
 @import "tailwindcss";
-@plugin './hero.ts';
-@source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+
+@plugin "./hero.ts";
+@source "../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
 @custom-variant dark (&:is(.dark *));
+@source "./app/**/*.{ts,tsx,js,jsx}";
+@source "./app/components/**/*.{ts,tsx,js,jsx}";
+@source "./src/**/*.{ts,tsx,js,jsx}";
+@source "./node_modules/@heroui/react/**/*.{js,ts,jsx,tsx}";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #171717;
+  --foreground: #FFF;
+
+  --font-black: #000;
+  --font-white: #fff;
 }
 
 @theme inline {
+  --size-header: 72px;
+  --size-footer: 60px;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-font-black: var(--font-black);
+  --color-font-white: var(--font-white);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -19,6 +33,9 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    --font-black: #000;
+    --font-white: #fff;
   }
 }
 
@@ -26,4 +43,8 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.group-data-\[filled-within\=true\]\:text-foreground:is(:where(.group)[data-filled-within="true"] *) {
+    color: var(--font-black);
 }

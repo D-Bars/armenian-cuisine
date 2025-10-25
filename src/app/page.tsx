@@ -1,5 +1,7 @@
+import { siteConfig } from "@/config/site.config";
+
 export default function Home() {
   return (
-    <h1>Armenian Cuisine</h1>
+    <h1>{siteConfig.title}</h1>
   );
 }

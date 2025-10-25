@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/UI/header";
 import HeroProvider from "@/providers/provider";
 import { siteConfig } from "@/config/site.config";
+import Header from "@/components/UI/layout/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +32,9 @@ export default function RootLayout({
       >
         <HeroProvider>
           <Header />
-          {children}
+          <main className="">
+            {children}
+          </main>
         </HeroProvider>
       </body>
     </html>
