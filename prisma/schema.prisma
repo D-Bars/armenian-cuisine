@@ -22,6 +22,7 @@ model recipes {
 model users {
   id        Int       @id @default(autoincrement())
   email     String    @unique(map: "email") @db.VarChar(255)
+  password  String
   name      String?   @db.VarChar(255)
   createdAt DateTime? @default(now()) @db.DateTime(0)
   recipes   recipes[]
