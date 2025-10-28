@@ -18,7 +18,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             },
             authorize: async (credentials) => {
                 try {
-                    if(!credentials?.email || !credentials?.password){
+                    if (!credentials?.email || !credentials?.password) {
                         throw new Error("Email and password are required")
                     }
 
@@ -34,11 +34,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                         user.password
                     )
 
-                    if(!isPasswordValid){
+                    if (!isPasswordValid) {
                         throw new Error("Invalid data entered")
                     }
 
-                    return {id: String(user.id), email: user.email};
+                    return { id: String(user.id), email: user.email };
                 } catch (error) {
                     if (error instanceof ZodError) {
                         // Return `null` to indicate that the credentials are invalid
@@ -49,4 +49,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             },
         }),
     ],
+    session: {
+        strategy: "jwt",
+        maxAge: 3600,
+    },
+    secret: process.env.NEXTAUTH_SECRET,
+    callbacks: {
+        async jwt({token, user}){
+            if(user){
+                token.id = user.id;
+            }
+            return token;
+        }
+    }
 })

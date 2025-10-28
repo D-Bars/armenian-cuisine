@@ -8,6 +8,7 @@ import RegistrationModal from "../modals/registration.modal";
 import LoginModal from "../modals/login.modal";
 import { useState } from "react";
 import { signOutFunc } from "@/actions/sign-out";
+import { useSession } from "next-auth/react";
 
 export const Logo = () => {
     return (
@@ -23,6 +24,10 @@ export const Logo = () => {
 
 export default function Header() {
     const pathName = usePathname();
+    const {data: session, status} = useSession();
+
+    console.log("session:", session);
+    console.log("status:", status);
 
     const [isRegistrationOpen, setIsRegistrationOpen] = useState<boolean>(false);
     const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
