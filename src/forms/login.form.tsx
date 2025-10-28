@@ -1,5 +1,6 @@
 'use client';
 
+import { signInWithCredentials } from '@/actions/sign-in';
 import { Form } from '@heroui/form';
 import { Input } from '@heroui/input';
 import { Button } from '@heroui/react';
@@ -19,6 +20,8 @@ const LoginForm = ({ onClose }: IProps) => {
         e.preventDefault();
         console.log("Form:submitted:", formData);
 
+        const result = await signInWithCredentials(formData.email, formData.password);
+        console.log(result)
         onClose();
     }
     return (
@@ -59,7 +62,7 @@ const LoginForm = ({ onClose }: IProps) => {
                     return null;
                 }}
             />
-            
+
 
             <div className='flex w-[100%] gap-4 items-center pt-8 justify-end'>
                 <Button variant='light' onPress={onClose}>

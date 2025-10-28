@@ -4,6 +4,8 @@ import "./globals.css";
 import HeroProvider from "@/providers/provider";
 import { siteConfig } from "@/config/site.config";
 import Header from "@/components/UI/layout/header";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth/auth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,21 +22,24 @@ export const metadata: Metadata = {
   description: siteConfig.description,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <HeroProvider>
-          <Header />
-          <main className="">
-            {children}
-          </main>
+          <SessionProvider session={session}>
+            <Header />
+            <main className="">
+              {children}
+            </main>
+          </SessionProvider>
         </HeroProvider>
       </body>
     </html>
