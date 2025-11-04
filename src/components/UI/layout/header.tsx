@@ -8,7 +8,7 @@ import RegistrationModal from "../modals/registration.modal";
 import LoginModal from "../modals/login.modal";
 import { useState } from "react";
 import { signOutFunc } from "@/actions/sign-out";
-import { useSession } from "next-auth/react";
+import { useAuthStore } from "@/store/auth.store";
 
 export const Logo = () => {
     return (
@@ -24,15 +24,20 @@ export const Logo = () => {
 
 export default function Header() {
     const pathName = usePathname();
-    const { data: session, status } = useSession();
 
-    const isAuth = status === "authenticated";
+    const { isAuth, session, status, setAuthState } = useAuthStore();
 
     const [isRegistrationOpen, setIsRegistrationOpen] = useState<boolean>(false);
     const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
 
     const handleSignOut = async () => {
-        await signOutFunc();
+        try {
+            await signOutFunc();
+        } catch (error) {
+            console.error("error: ", error);
+        }
+
+        setAuthState("unauthenticated", null);
     }
 
     const getNavItems = () => {
@@ -63,8 +68,8 @@ export default function Header() {
             </NavbarContent>
 
             <NavbarContent justify="end">
-                {isAuth && <p>Hi, {session.user?.email}!</p>}
-                {!isAuth ?
+                {(isAuth && session) && <p>Hi, {session.user?.email}!</p>}
+                {status === "loading" ? <p>Loading...</p> : !isAuth ?
                     <>
 
                         <NavbarItem className="hidden lg:flex">
@@ -103,8 +108,6 @@ export default function Header() {
                         </Button>
                     </NavbarItem>
                 }
-
-
             </NavbarContent>
 
             <RegistrationModal

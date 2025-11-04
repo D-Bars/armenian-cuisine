@@ -6,6 +6,7 @@ import { siteConfig } from "@/config/site.config";
 import Header from "@/components/UI/layout/header";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth/auth";
+import AppLoader from "@/hoc/app-loader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,10 +36,12 @@ export default async function RootLayout({
       >
         <HeroProvider>
           <SessionProvider session={session}>
-            <Header />
-            <main className="">
-              {children}
-            </main>
+            <AppLoader>
+              <Header />
+              <main className="">
+                {children}
+              </main>
+            </AppLoader>
           </SessionProvider>
         </HeroProvider>
       </body>

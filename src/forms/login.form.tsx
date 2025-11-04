@@ -1,9 +1,11 @@
 'use client';
 
 import { signInWithCredentials } from '@/actions/sign-in';
+import { useAuthStore } from '@/store/auth.store';
 import { Form } from '@heroui/form';
 import { Input } from '@heroui/input';
 import { Button } from '@heroui/react';
+import { useSession, getSession} from 'next-auth/react';
 import React, { useState } from 'react';
 
 interface IProps {
@@ -11,6 +13,8 @@ interface IProps {
 }
 
 const LoginForm = ({ onClose }: IProps) => {
+    const { update } = useSession();
+    const { setAuthState } = useAuthStore();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -18,12 +22,20 @@ const LoginForm = ({ onClose }: IProps) => {
     })
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Form:submitted:", formData);
 
         const result = await signInWithCredentials(formData.email, formData.password);
-        console.log(result)
+        if (result?.error) {
+            console.error("Login error: ", result.error);
+            return;
+        }
+        await update();
+
+        const fresh = await getSession();
+
+        setAuthState(fresh ? "authenticated" : "unauthenticated", fresh);
         onClose();
     }
+
     return (
         <Form className="w-full max-w-xs" onSubmit={onSubmit}>
             <Input
