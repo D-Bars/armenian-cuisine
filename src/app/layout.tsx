@@ -7,6 +7,8 @@ import Header from "@/components/UI/layout/header";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth/auth";
 import AppLoader from "@/hoc/app-loader";
+import Title from "@/components/UI/layout/title";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +40,7 @@ export default async function RootLayout({
           <SessionProvider session={session}>
             <AppLoader>
               <Header />
+              <Title />
               <main className="">
                 {children}
               </main>

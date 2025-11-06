@@ -1,7 +1,8 @@
-import { siteConfig } from "@/config/site.config";
+"use client";
 
 export default function Home() {
   return (
-    <h1>{siteConfig.title}</h1>
+    <div>
+    </div>
   );
 }
