@@ -40,10 +40,11 @@ export default async function RootLayout({
           <SessionProvider session={session}>
             <AppLoader>
               <Header />
-              <Title />
               <main className="">
+                <Title />
                 {children}
               </main>
+              <footer className="h-[var(--size-footer)]"></footer>
             </AppLoader>
           </SessionProvider>
         </HeroProvider>
