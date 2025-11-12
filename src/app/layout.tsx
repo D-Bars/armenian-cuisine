@@ -40,7 +40,7 @@ export default async function RootLayout({
           <SessionProvider session={session}>
             <AppLoader>
               <Header />
-              <main className="">
+              <main className="flex flex-col max-w-[1024px] items-center mx-auto px-[24px]">
                 <Title />
                 {children}
               </main>

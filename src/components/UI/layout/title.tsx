@@ -10,7 +10,7 @@ const Title = () => {
     const pageTitle = currentNavItem ? currentNavItem.label : '';
     
     return (
-        <div className="w-full flex justify-center mt-6 mb-12">
+        <div className="w-full flex justify-center py-6">
             <h1 className="text-3xl font-bold">{pageTitle}</h1>
         </div>
     );
