@@ -1,26 +1,41 @@
 "use client";
 
+import { createIngredient } from "@/actions/ingredient";
 import { CATEGORY_OPTIONS, UNIT_OPTIONS } from "@/constans/select-options";
 import { Form } from "@heroui/form";
 import { Input } from "@heroui/input";
 import { Button, Select, SelectItem } from "@heroui/react";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+
+const initialState = {
+    name: "",
+    category: "",
+    unit: "",
+    pricePerUnit: null as number | null,
+    description: "",
+};
 
 const IngredientForm = () => {
-    const [formData, setFormData] = useState({
-        name: "",
-        category: "",
-        unit: "",
-        pricePerUnit: null as number | null,
-        description: "",
-    });
+    const [error, setError] = useState<string | null>(null);
+    const [formData, setFormData] = useState(initialState);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log("Form Data Submitted: ", formData);
+    const [isPending, startTransition] = useTransition();
+
+    const handleSubmit = async (formData: FormData) => {
+        startTransition(async () => {
+            const result = await createIngredient(formData);
+
+            if (result.error) {
+                setError(result.error);
+            } else {
+                setError(null);
+                setFormData(initialState);
+            }
+        });
     }
     return (
-        <Form className="w-[400px]" onSubmit={handleSubmit}>
+        <Form className="w-[400px]" action={handleSubmit} >
+            {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
             <Input
                 isRequired
                 name="name"
@@ -119,7 +134,7 @@ const IngredientForm = () => {
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             />
             <div className="flex w-full items-center justify-end">
-                <Button color="primary" type="submit">
+                <Button color="primary" type="submit" isLoading={isPending}>
                     Add Ingredient
                 </Button>
             </div>
