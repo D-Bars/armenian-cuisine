@@ -41,20 +41,24 @@ export default function Header() {
     }
 
     const getNavItems = () => {
-        return siteConfig.navItems.map((item) => {
-            const isActive = pathName === item.href;
-            return (
-                <NavbarItem className={`
-                            ${isActive ? "text-blue-500" : "text-foreground"}
-                        `}
-                    key={item.href}>
-                    <Link href={item.href}>
-                        {item.label}
-                    </Link>
-                </NavbarItem>
-            )
-        })
-    }
+        return siteConfig.navItems
+            .filter((item) => {
+                if (item.requiresAuth && !isAuth) return false;
+                return true;
+            })
+            .map((item) => {
+                const isActive = pathName === item.href;
+
+                return (
+                    <NavbarItem
+                        key={item.href}
+                        className={isActive ? "text-blue-500" : "text-foreground"}
+                    >
+                        <Link href={item.href}>{item.label}</Link>
+                    </NavbarItem>
+                );
+            });
+    };
     return (
         <Navbar className="h-[var(--size-header)]">
             <NavbarBrand>

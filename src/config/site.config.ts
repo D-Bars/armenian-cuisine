@@ -1,20 +1,20 @@
 export const siteConfig = {
-    title: 'Armenian cuisine',
-    description: 'armenian cuisine recipes',
-    navItems: [
-        { href: '/', label: 'Recipes' },
-        { href: '/ingredients', label: 'Ingredients' },
-        { href: '/about', label: 'About us' }
-    ],
-    pagesContent: {
-        "/": {
-            content: "recipes soon"
-        },
-        "/ingridients": {
-            content: "ingredients soon"
-        },
-        "/about": {
-            content: `
+  title: 'Armenian cuisine',
+  description: 'armenian cuisine recipes',
+  navItems: [
+    { href: "/", label: "Recipes", requiresAuth: false },
+    { href: "/ingredients", label: "Ingredients", requiresAuth: true },
+    { href: "/about", label: "About us", requiresAuth: false },
+  ],
+  pagesContent: {
+    "/": {
+      content: "recipes soon"
+    },
+    "/ingridients": {
+      content: "ingredients soon"
+    },
+    "/about": {
+      content: `
             <div class="flex flex-col gap-4">
   <p>
     Armenian cuisine is a celebration of <span class="">rich flavors, ancient traditions,</span> 
@@ -68,6 +68,6 @@ export const siteConfig = {
         <li>Armenian coffee - strong, rich, and aromatic</li>
     </ul>
   </div>`
-        }
     }
+  }
 };
