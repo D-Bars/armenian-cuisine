@@ -8,7 +8,7 @@ export async function middleware(req: NextRequest) {
         secret: process.env.NEXTAUTH_SECRET
     });
 
-    const protectedPaths = ['/ingredients'];
+    const protectedPaths = ['/ingredients', '/recipes/new', '/recipes/:path*'];
     if (protectedPaths.some((path) => pathname.startsWith(path))) {
         if (!token) {
             const url = new URL('/error', req.url);
@@ -21,5 +21,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/ingredients/:path*'],
+    matcher: ['/ingredients/:path*', "/recipes/new", '/recipes/:path*'],
 };
